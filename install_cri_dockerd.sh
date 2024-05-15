@@ -16,7 +16,6 @@ function install_cri_dockerd() {
         echo $VER
 
         wget https://github.com/Mirantis/cri-dockerd/releases/download/v${VER}/cri-dockerd-${VER}.arm64.tgz
-        cri-dockerd-${VER}.arm64.tgz
 
         sudo tar -xvzf cri-dockerd-${VER}.arm64.tgz
         sudo mv cri-dockerd/cri-dockerd /usr/local/bin/
