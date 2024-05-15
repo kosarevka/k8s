@@ -33,7 +33,7 @@ function install_cri_dockerd() {
     }
 }
 
-function set_up_ systemd_for_cri-dockerd() {
+function set_up_systemd_for_cri-dockerd() {
     echo "Setting up systemd units for cri-dockerd..."
     wget https://raw.githubusercontent.com/Mirantis/cri-dockerd/master/packaging/systemd/cri-docker.service
     wget https://raw.githubusercontent.com/Mirantis/cri-dockerd/master/packaging/systemd/cri-docker.socket
@@ -175,9 +175,9 @@ EOF
 }
 
 function main() {
-    check_container_runtime_of_kubelet
     install_cri_dockerd
-    start_cri_dockerd
-    configure_kubelet
+    set_up_systemd_for_cri-dockerd
+    run_cri-dockerd
 }
 
+main
