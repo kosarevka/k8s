@@ -52,20 +52,6 @@ function run_cri-dockerd() {
     systemctl status cri-docker.socket
 }
 
-
-
-
-CRI_SOCK="unix:///var/run/cri-dockerd.sock"
-KUBEADM_FLAGS_ENV="/var/lib/kubelet/kubeadm-flags.env"
-
-SERVICE_NAME="cri-docker.service"
-SERVICE_PATH="/etc/systemd/system/${SERVICE_NAME}"
-TAR_NAME="cri-dockerd.tar.gz"
-TAR_PATH="${TMPDIR:-/tmp/}/install-cri-dockerd"
-BIN_NAME=""
-BIN_PATH=
-OLD_FLAGS=$(cat "${KUBEADM_FLAGS_ENV}")
-
 function check_container_runtime_of_kubelet() {
     if [[ "${OLD_FLAGS}" =~ "--container-runtime=remote" ]]; then
         echo cat "${KUBEADM_FLAGS_ENV}"
@@ -77,6 +63,18 @@ function check_container_runtime_of_kubelet() {
 }
 
 function start_cri_dockerd() {
+    CRI_SOCK="unix:///var/run/cri-dockerd.sock"
+    KUBEADM_FLAGS_ENV="/var/lib/kubelet/kubeadm-flags.env"
+
+    SERVICE_NAME="cri-docker.service"
+    SERVICE_PATH="/etc/systemd/system/${SERVICE_NAME}"
+    TAR_NAME="cri-dockerd.tar.gz"
+    TAR_PATH="${TMPDIR:-/tmp/}/install-cri-dockerd"
+    BIN_NAME=""
+    BIN_PATH=
+    OLD_FLAGS=$(cat "${KUBEADM_FLAGS_ENV}")
+
+
     source "${KUBEADM_FLAGS_ENV}"
     cat <<EOF >"${SERVICE_PATH}"
 [Unit]
